@@ -1,0 +1,24 @@
+rsa:
+  public-key: classpath:certs/public.pem
+  private-key: classpath:certs/private.pem
+spring:
+  application:
+    name: note_api
+  flyway:
+    baselineOnMigrate: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/note_db
+    username: postgres
+    password: 123
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format: sql
+        format_sql: true
+        show_sql: true
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+server:
+  port: 3000
