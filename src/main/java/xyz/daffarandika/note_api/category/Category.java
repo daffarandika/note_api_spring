@@ -20,8 +20,8 @@ public class Category {
     private Long categoryId;
     private String categoryName;
 
-    @ManyToMany(mappedBy = "categories")
-    private List<Note> notes;
+    // @ManyToMany(mappedBy = "categories")
+    // private List<Note> notes;
 
     // Getters and setters
 }

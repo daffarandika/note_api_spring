@@ -24,8 +24,9 @@ public class NoteApiApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
-		
+		noteRepository.findAll().forEach(note ->
+			System.out.println(note.toString())
+		);
 	}
 
 }

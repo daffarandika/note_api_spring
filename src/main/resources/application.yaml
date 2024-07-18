@@ -4,8 +4,14 @@ rsa:
 spring:
   application:
     name: note_api
-  flyway:
+  flyway:    
+    enabled: true
     baselineOnMigrate: true
+    url: jdbc:postgresql://localhost:5432/note_db
+    user: postgres
+    password: 123
+    schemas: public
+    locations: "classpath:db/migrations"
   datasource:
     url: jdbc:postgresql://localhost:5432/note_db
     username: postgres

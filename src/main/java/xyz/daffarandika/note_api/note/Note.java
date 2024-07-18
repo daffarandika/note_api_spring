@@ -25,14 +25,14 @@ public class Note {
     private String title;
     private String content;
 
-    @ManyToMany(
-		fetch = FetchType.LAZY, 
-		cascade = {CascadeType.PERSIST, CascadeType.MERGE}
-	)
-    @JoinTable(name = "notes_categories",
-               joinColumns = @JoinColumn(name = "note_id"),
-               inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> categories;
+ //    @ManyToMany(
+	// 	fetch = FetchType.LAZY, 
+	// 	cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+	// )
+ //    @JoinTable(name = "notes_categories",
+ //               joinColumns = @JoinColumn(name = "note_id"),
+ //               inverseJoinColumns = @JoinColumn(name = "category_id"))
+ //    private List<Category> categories;
 
     // Getters and setters
 }
