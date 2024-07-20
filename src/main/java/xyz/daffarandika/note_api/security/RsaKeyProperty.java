@@ -1,4 +1,4 @@
-package xyz.daffarandika.note_api.config;
+package xyz.daffarandika.note_api.security;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;

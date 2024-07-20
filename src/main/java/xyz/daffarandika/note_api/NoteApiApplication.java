@@ -5,17 +5,30 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-import xyz.daffarandika.note_api.config.RsaKeyProperty;
-import xyz.daffarandika.note_api.note.NoteRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import xyz.daffarandika.note_api.auth.model.User;
+import xyz.daffarandika.note_api.auth.repository.UserRepository;
+import xyz.daffarandika.note_api.auth.service.JpaUserDetailsService;
+import xyz.daffarandika.note_api.note.model.Note;
+import xyz.daffarandika.note_api.security.RsaKeyProperty;
+import xyz.daffarandika.note_api.note.repository.NoteRepository;
+
+import java.util.Date;
+import java.util.Optional;
 
 @EnableConfigurationProperties(RsaKeyProperty.class)
 @SpringBootApplication
 public class NoteApiApplication implements CommandLineRunner {
 
 	private final NoteRepository noteRepository;
+	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
 
-	public NoteApiApplication(NoteRepository noteRepository) {
+	public NoteApiApplication(NoteRepository noteRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		this.noteRepository = noteRepository;
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	public static void main(String[] args) {
@@ -24,9 +37,21 @@ public class NoteApiApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		noteRepository.findAll().forEach(note ->
-			System.out.println(note.toString())
-		);
+		try {
+			User user = new User("admin", "agi", "admin@mail.com", passwordEncoder.encode("hai"), new Date(), "ADMIN");
+			userRepository.save(user);
+		 } catch (Exception e) {
+			e.printStackTrace();
+		}
+		Optional<User> user = userRepository.findByUsername("admin");
+		if (user.isPresent()) {
+			User author = user.get();
+			System.out.println(author);
+			noteRepository.save(new Note(author.getId(), "title", "here", new Date()));
+			noteRepository.findAll().forEach(note ->
+					System.out.println(note.toString())
+			);
+		}
 	}
 
 }

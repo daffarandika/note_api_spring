@@ -1,4 +1,4 @@
-package xyz.daffarandika.note_api.note;
+package xyz.daffarandika.note_api.note.controller;
 
 import java.security.Principal;
 
