@@ -1,10 +1,14 @@
 package xyz.daffarandika.note_api.auth.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
-import xyz.daffarandika.note_api.auth.model.AuthResponse;
+import xyz.daffarandika.note_api.auth.model.LoginResponse;
 import xyz.daffarandika.note_api.auth.model.LoginRequest;
+import xyz.daffarandika.note_api.auth.model.SignupRequest;
+import xyz.daffarandika.note_api.auth.model.SignupResponse;
 import xyz.daffarandika.note_api.auth.service.AuthService;
 import xyz.daffarandika.note_api.token.TokenService;
 
@@ -40,12 +44,23 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
-        AuthResponse user = authService.login(loginRequest.getUsername(), loginRequest.getPassword());
-        if (user.getUsername().isEmpty() && user.getToken().isEmpty()) {
-            throw new BadCredentialsException("Invalid username " + loginRequest.getUsername() + " or password " + loginRequest.getPassword());
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        try {
+            LoginResponse user = authService.login(loginRequest);
+            return ResponseEntity.ok(user);
+        } catch (BadCredentialsException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest) {
+        try {
+            SignupResponse user = authService.signup(signupRequest);
+            return ResponseEntity.ok(user);
+        } catch (BadCredentialsException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

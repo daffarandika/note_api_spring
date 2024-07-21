@@ -3,16 +3,16 @@ package xyz.daffarandika.note_api.auth.model;
 import lombok.Getter;
 
 @Getter
-public class AuthResponse {
+public class LoginResponse {
     private String username;
     private String token;
 
-     public AuthResponse(String username, String token) {
+     public LoginResponse(String username, String token) {
          this.username = username;
          this.token = token;
      }
 
-     public AuthResponse() {
+     public LoginResponse() {
          this.username = "";
          this.token = "";
      }

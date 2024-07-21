@@ -1,6 +1,7 @@
 package xyz.daffarandika.note_api.auth.service;
 
-import org.springframework.http.ResponseEntity;
+import org.apache.coyote.BadRequestException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,12 +9,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import xyz.daffarandika.note_api.auth.model.AuthResponse;
-import xyz.daffarandika.note_api.auth.model.User;
+import xyz.daffarandika.note_api.auth.model.*;
 import xyz.daffarandika.note_api.auth.repository.UserRepository;
 import xyz.daffarandika.note_api.token.TokenService;
-
-import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -30,15 +28,28 @@ public class AuthService {
         this.tokenService = tokenService;
     }
 
-    public AuthResponse login(String username, String password) {
-        try{
+    public LoginResponse login(LoginRequest loginRequest) {
+        try {
+            String username = loginRequest.getUsername();
+            String password = loginRequest.getPassword();
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, (password))
             );
             String token = tokenService.generateToken(authentication);
-            return new AuthResponse(username, token);
+            return new LoginResponse(username, token);
         } catch (AuthenticationException e) {
-            throw new BadCredentialsException("Invalid username " + username + " or password " + (password));
+            throw new BadCredentialsException("Invalid username or password");
+        }
+    }
+
+    public SignupResponse signup(SignupRequest signupRequest) {
+        try {
+            User user = new User(signupRequest);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+            return new SignupResponse(signupRequest.getUsername(), signupRequest.getCreatedAt());
+        } catch (DataIntegrityViolationException e) {
+            throw new BadCredentialsException("Username and email must be unique");
         }
     }
 }

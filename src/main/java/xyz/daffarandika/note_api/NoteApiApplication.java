@@ -41,9 +41,8 @@ public class NoteApiApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		userRepository.save(new User("admin", "admin", "admin@mail.com", passwordEncoder.encode("hai"), new Date(), "ADMIN"));
-		userRepository.save(new User("user", "user", "user1@mail.com", passwordEncoder.encode("hai"), new Date(), "USER"));
-		userRepository.save(new User("user1", "user", "user1@mail.com", passwordEncoder.encode("hai"), new Date(), "USER"));
-		authService.login("admin", "hai");
+		userRepository.save(new User("user", "user", "user@mail.com", passwordEncoder.encode("hai"), new Date(), "USER"));
+		userRepository.save(new User("user1", "user1", "user1@mail.com", passwordEncoder.encode("hai"), new Date(), "USER"));
 	}
 
 }

@@ -31,13 +31,21 @@ public class User {
     private String roles;
 
     public User(String username, String name, String email, String password, Date createdAt, String roles) {
-        System.out.println("<=> NEW USER");
         this.username = username;
         this.name = name;
         this.email = email;
         this.password = password;
         this.createdAt = createdAt;
         this.roles = roles;
+    }
+
+    public User(SignupRequest request) {
+        this.username = request.getUsername();
+        this.name = request.getName();
+        this.email = request.getEmail();
+        this.password = request.getPassword();
+        this.createdAt = request.getCreatedAt();
+        this.roles = request.getRoles();
     }
 
     public User() {}
