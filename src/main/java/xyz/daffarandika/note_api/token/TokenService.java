@@ -11,6 +11,8 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
+import static java.time.temporal.ChronoUnit.*;
+
 /**
  * TokenController
  */
@@ -31,7 +33,7 @@ public class TokenService {
 		JwtClaimsSet claims = JwtClaimsSet.builder()
 				.issuer("self")
 				.issuedAt(now)
-				.expiresAt(now.plus(45, ChronoUnit.MINUTES))
+				.expiresAt(now.plus(45, MINUTES))
 				.subject(authentication.getName())
 				.claim("scope", scope)
 				.build();

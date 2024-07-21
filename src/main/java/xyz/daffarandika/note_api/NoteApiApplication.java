@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import xyz.daffarandika.note_api.auth.model.User;
 import xyz.daffarandika.note_api.auth.repository.UserRepository;
+import xyz.daffarandika.note_api.auth.service.AuthService;
 import xyz.daffarandika.note_api.auth.service.JpaUserDetailsService;
 import xyz.daffarandika.note_api.note.model.Note;
 import xyz.daffarandika.note_api.security.RsaKeyProperty;
@@ -23,12 +24,14 @@ public class NoteApiApplication implements CommandLineRunner {
 
 	private final NoteRepository noteRepository;
 	private final UserRepository userRepository;
+	private final AuthService authService;
 	private final PasswordEncoder passwordEncoder;
 
-	public NoteApiApplication(NoteRepository noteRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+	public NoteApiApplication(NoteRepository noteRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthService authService) {
 		this.noteRepository = noteRepository;
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
+		this.authService = authService;
 	}
 
 	public static void main(String[] args) {
@@ -37,21 +40,10 @@ public class NoteApiApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		try {
-			User user = new User("admin", "agi", "admin@mail.com", passwordEncoder.encode("hai"), new Date(), "ADMIN");
-			userRepository.save(user);
-		 } catch (Exception e) {
-			e.printStackTrace();
-		}
-		Optional<User> user = userRepository.findByUsername("admin");
-		if (user.isPresent()) {
-			User author = user.get();
-			System.out.println(author);
-			noteRepository.save(new Note(author.getId(), "title", "here", new Date()));
-			noteRepository.findAll().forEach(note ->
-					System.out.println(note.toString())
-			);
-		}
+		userRepository.save(new User("admin", "admin", "admin@mail.com", passwordEncoder.encode("hai"), new Date(), "ADMIN"));
+		userRepository.save(new User("user", "user", "user1@mail.com", passwordEncoder.encode("hai"), new Date(), "USER"));
+		userRepository.save(new User("user1", "user", "user1@mail.com", passwordEncoder.encode("hai"), new Date(), "USER"));
+		authService.login("admin", "hai");
 	}
 
 }

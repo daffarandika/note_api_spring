@@ -6,9 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import xyz.daffarandika.note_api.auth.model.AuthUser;
+import xyz.daffarandika.note_api.auth.model.User;
 import xyz.daffarandika.note_api.auth.repository.UserRepository;
-
-import java.util.Optional;
 
 @Service
 public class JpaUserDetailsService implements UserDetailsService {
@@ -27,5 +26,4 @@ public class JpaUserDetailsService implements UserDetailsService {
                 .map(AuthUser::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"));
     }
-
 }
