@@ -16,18 +16,25 @@ public class User {
     @SequenceGenerator(name = "user_gen", sequenceName = "users_id_seq", allocationSize = 1)
     private Integer id;
 
+    @Column(unique = true)
     private String username;
 
+    @Column
     private String name;
 
+    @Column(unique = true)
     private String email;
 
+    @Column
     private String password;
 
+    @Column
     private Date createdAt;
 
+    @Column
     private Date deletedAt;
 
+    @Column
     private String roles;
 
     public User(String username, String name, String email, String password, Date createdAt, String roles) {

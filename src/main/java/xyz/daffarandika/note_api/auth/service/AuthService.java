@@ -49,7 +49,7 @@ public class AuthService {
             userRepository.save(user);
             return new SignupResponse(signupRequest.getUsername(), signupRequest.getCreatedAt());
         } catch (DataIntegrityViolationException e) {
-            throw new BadCredentialsException("Username and email must be unique");
+            throw new BadCredentialsException(e.getMessage());
         }
     }
 }
