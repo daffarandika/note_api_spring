@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.persistence.*;
 import lombok.*;
 import xyz.daffarandika.note_api.category.model.NotesCategory;
+import xyz.daffarandika.note_api.note.dto.CreateNoteRequest;
 
 /**
  * Note
@@ -35,7 +36,6 @@ public class Note {
 	@Column(name = "content_path")
     private String contentPath;
 
-	@NonNull
 	@Column(name = "created_at")
 	private Date createdAt;
 
@@ -47,6 +47,13 @@ public class Note {
 
 	@OneToMany(mappedBy = "note")
 	private List<NotesCategory> notesCategories;
+
+	public Note(CreateNoteRequest createNoteRequest, Integer authorId) {
+		this.title = createNoteRequest.getTitle();
+		this.contentPath = createNoteRequest.getContentPath();
+		this.authorId = authorId;
+		this.createdAt = new Date();
+	}
 
 
 

@@ -4,14 +4,13 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.parameters.P;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import xyz.daffarandika.note_api.auth.model.LoginResponse;
-import xyz.daffarandika.note_api.auth.model.LoginRequest;
-import xyz.daffarandika.note_api.auth.model.SignupRequest;
-import xyz.daffarandika.note_api.auth.model.SignupResponse;
+import xyz.daffarandika.note_api.auth.dto.LoginResponse;
+import xyz.daffarandika.note_api.auth.dto.LoginRequest;
+import xyz.daffarandika.note_api.auth.dto.SignupRequest;
+import xyz.daffarandika.note_api.auth.dto.SignupResponse;
 import xyz.daffarandika.note_api.auth.service.AuthService;
 import xyz.daffarandika.note_api.token.TokenService;
 
@@ -27,7 +26,7 @@ import java.util.Map;
  * AuthController
  */
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @CrossOrigin("*")
 public class AuthController {
 

@@ -1,11 +1,9 @@
-package xyz.daffarandika.note_api.auth.model;
+package xyz.daffarandika.note_api.auth.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public class LoginRequest {

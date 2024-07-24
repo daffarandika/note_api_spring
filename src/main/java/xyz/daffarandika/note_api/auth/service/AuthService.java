@@ -1,6 +1,5 @@
 package xyz.daffarandika.note_api.auth.service;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -9,6 +8,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import xyz.daffarandika.note_api.auth.dto.LoginRequest;
+import xyz.daffarandika.note_api.auth.dto.LoginResponse;
+import xyz.daffarandika.note_api.auth.dto.SignupRequest;
+import xyz.daffarandika.note_api.auth.dto.SignupResponse;
 import xyz.daffarandika.note_api.auth.model.*;
 import xyz.daffarandika.note_api.auth.repository.UserRepository;
 import xyz.daffarandika.note_api.token.TokenService;
@@ -21,7 +24,12 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, TokenService tokenService) {
+    public AuthService(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            AuthenticationManager authenticationManager,
+            TokenService tokenService
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
@@ -33,12 +41,12 @@ public class AuthService {
             String username = loginRequest.getUsername();
             String password = loginRequest.getPassword();
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, (password))
+                    new UsernamePasswordAuthenticationToken(username, password)
             );
             String token = tokenService.generateToken(authentication);
             return new LoginResponse(username, token);
         } catch (AuthenticationException e) {
-            throw new BadCredentialsException("Invalid username or password");
+            throw new BadCredentialsException("invalid username or password");
         }
     }
 

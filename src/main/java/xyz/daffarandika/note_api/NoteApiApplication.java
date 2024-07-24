@@ -20,29 +20,12 @@ import java.util.Optional;
 
 @EnableConfigurationProperties(RsaKeyProperty.class)
 @SpringBootApplication
-public class NoteApiApplication implements CommandLineRunner {
+public class NoteApiApplication {
 
-	private final NoteRepository noteRepository;
-	private final UserRepository userRepository;
-	private final AuthService authService;
-	private final PasswordEncoder passwordEncoder;
-
-	public NoteApiApplication(NoteRepository noteRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthService authService) {
-		this.noteRepository = noteRepository;
-		this.userRepository = userRepository;
-		this.passwordEncoder = passwordEncoder;
-		this.authService = authService;
-	}
+	public NoteApiApplication() {}
 
 	public static void main(String[] args) {
 		SpringApplication.run(NoteApiApplication.class, args);
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
-		userRepository.save(new User("admin", "admin", "admin@mail.com", passwordEncoder.encode("hai"), new Date(), "ADMIN"));
-		userRepository.save(new User("user", "user", "user@mail.com", passwordEncoder.encode("hai"), new Date(), "USER"));
-		userRepository.save(new User("user1", "user1", "user1@mail.com", passwordEncoder.encode("hai"), new Date(), "USER"));
 	}
 
 }

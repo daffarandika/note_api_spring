@@ -1,4 +1,4 @@
-package xyz.daffarandika.note_api.auth.model;
+package xyz.daffarandika.note_api.auth.dto;
 
 import lombok.Getter;
 

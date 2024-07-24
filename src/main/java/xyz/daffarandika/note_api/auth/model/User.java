@@ -2,6 +2,7 @@ package xyz.daffarandika.note_api.auth.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import xyz.daffarandika.note_api.auth.dto.SignupRequest;
 
 import java.util.Date;
 

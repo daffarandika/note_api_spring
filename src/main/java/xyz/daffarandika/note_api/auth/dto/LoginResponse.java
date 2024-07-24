@@ -1,11 +1,11 @@
-package xyz.daffarandika.note_api.auth.model;
+package xyz.daffarandika.note_api.auth.dto;
 
 import lombok.Getter;
 
 @Getter
 public class LoginResponse {
-    private String username;
-    private String token;
+    private final String username;
+    private final String token;
 
      public LoginResponse(String username, String token) {
          this.username = username;
