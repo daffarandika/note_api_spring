@@ -19,12 +19,10 @@ import static java.time.temporal.ChronoUnit.*;
 public class TokenService {
 
 	private final JwtEncoder jwtEncoder;
-	private final JwtDecoder jwtDecoder;
 	private final UserRepository userRepository;
 
-	public TokenService(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder, UserRepository userRepository) {
+	public TokenService(JwtEncoder jwtEncoder, UserRepository userRepository) {
 		this.jwtEncoder = jwtEncoder;
-		this.jwtDecoder = jwtDecoder;
 		this.userRepository = userRepository;
 	}
 
@@ -38,21 +36,14 @@ public class TokenService {
 				.issuedAt(now)
 				.expiresAt(now.plus(45, MINUTES))
 				.subject(
-						userRepository.findByUsername(authentication.getName())
-								.orElseThrow()
-								.getId()
-								.toString()
+					userRepository.findByUsername(authentication.getName())
+							.orElseThrow()
+							.getId()
+							.toString()
 				)
 				.claim("scope", scope)
 				.build();
 		return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 	}
 
-	public String getIdFromToken(String token) {
-		Jwt jwt = jwtDecoder.decode(token);
-		Map<String, Object> claims = jwt.getClaims();
-		var sub = claims.get("sub");
-		System.out.println("<=> SUB: " + sub.toString());
-		return sub.toString();
-	}
 }

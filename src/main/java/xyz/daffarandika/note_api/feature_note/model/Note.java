@@ -5,7 +5,8 @@ import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.*;
-import xyz.daffarandika.note_api.feature_category.model.NotesCategory;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import xyz.daffarandika.note_api.feature_note.dto.CreateNoteRequest;
 
 /**
@@ -45,17 +46,27 @@ public class Note {
 	@Column(name = "deleted_at")
 	private Date deletedAt;
 
-	@OneToMany(mappedBy = "note")
-	private List<NotesCategory> notesCategories;
+	@ManyToMany(
+		cascade = {
+			CascadeType.PERSIST,
+			CascadeType.MERGE
+		}
+	)
+	@Fetch(FetchMode.JOIN)
+	@JoinTable(
+			name = "note_category",
+			joinColumns = @JoinColumn(name = "note_id"),
+			inverseJoinColumns = @JoinColumn(name = "category_id")
+	)
+	private List<Category> categories;
 
-	public Note(CreateNoteRequest createNoteRequest, Integer authorId) {
+	public Note(CreateNoteRequest createNoteRequest, Integer authorId, List<Category> categories) {
 		this.title = createNoteRequest.getTitle();
 		this.contentPath = createNoteRequest.getContentPath();
 		this.authorId = authorId;
 		this.createdAt = new Date();
+		this.categories  = categories;
 	}
-
-
 
 	@Override
 	public String toString() {

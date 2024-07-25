@@ -10,12 +10,12 @@ public class LoginRequest {
 
     @Valid
 
-    @NotNull(message = "username cannot be null")
-    @NotBlank(message = "username cannot be null")
+    @NotNull(message = "username cannot be empty")
+    @NotBlank(message = "username cannot be empty")
     private final String username;
 
-    @NotNull(message = "password cannot be null")
-    @NotBlank(message = "password cannot be null")
+    @NotNull(message = "password cannot be empty")
+    @NotBlank(message = "password cannot be empty")
     private final String password;
 
     LoginRequest(String username, String password) {

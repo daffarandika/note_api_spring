@@ -1,5 +1,6 @@
-package xyz.daffarandika.note_api.feature_category.model;
+package xyz.daffarandika.note_api.feature_note.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,16 +18,14 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Integer id;
 
     @NonNull
-    private String name;
+    @Column(unique = true)
+    private String category;
 
-    @OneToMany(mappedBy = "category")
-    List<NotesCategory> notesCategories;
-
-    // @ManyToMany(mappedBy = "categories")
-    // private List<Note> notes;
-
-    // Getters and setters
+    @ManyToMany(mappedBy = "categories")
+    @JsonIgnore
+    List<Note> notes;
 }
