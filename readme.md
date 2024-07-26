@@ -11,4 +11,3 @@ This is a backend application for a note-taking system. It uses JSON Web Tokens 
 * Spring Security with JWT
 * PostgreSQL
 * JPA / Hibernate
-    

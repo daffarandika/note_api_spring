@@ -4,10 +4,13 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
 @Getter
+@Setter
 public class CreateNoteRequest {
 
     @Valid
@@ -16,21 +19,27 @@ public class CreateNoteRequest {
     @NotBlank(message = "title cannot be empty")
     private final String title;
 
-    @NotNull(message = "contentPath cannot be empty")
-    @NotBlank(message = "contentPath cannot be empty")
-    private final String contentPath;
+    private final MultipartFile content;
 
-    @NotNull(message = "categories cannot be empty")
     @NotBlank(message = "categories cannot be empty")
     private final String categories;
 
     private final Date createdAt;
 
-    public CreateNoteRequest(String title, String contentPath, String categories) {
+    public CreateNoteRequest(String title, MultipartFile content, String categories) {
         this.title = title;
-        this.contentPath = contentPath;
+        this.content = content;
         this.categories = categories;
         this.createdAt = new Date();
     }
 
+    @Override
+    public String toString() {
+        return "CreateNoteRequest{" +
+                "title='" + title + '\'' +
+                ", content=" + content.getOriginalFilename() +
+                ", categories='" + categories + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

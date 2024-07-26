@@ -2,6 +2,7 @@ package xyz.daffarandika.note_api.feature_note.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -62,7 +63,7 @@ public class Note {
 
 	public Note(CreateNoteRequest createNoteRequest, Integer authorId, List<Category> categories) {
 		this.title = createNoteRequest.getTitle();
-		this.contentPath = createNoteRequest.getContentPath();
+		this.contentPath = Objects.requireNonNull(createNoteRequest.getContent().getOriginalFilename());
 		this.authorId = authorId;
 		this.createdAt = new Date();
 		this.categories  = categories;
